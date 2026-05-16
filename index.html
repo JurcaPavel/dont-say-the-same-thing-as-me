@@ -12,7 +12,7 @@
     <!-- Setup screen -->
     <section id="setup-screen" class="screen">
       <header class="header">
-        <h1>Don't say the same thing</h1>
+        <h1>Don't say the same thing as me</h1>
         <p class="subtitle">Game host setup</p>
       </header>
 
@@ -25,14 +25,33 @@
       </div>
 
       <div class="card">
-        <label class="field-label">Questions</label>
-        <div class="upload-row">
-          <label for="json-upload" class="upload-btn">
-            <span class="icon">⬆</span> Load .json file
-          </label>
-          <input type="file" id="json-upload" accept=".json,application/json" hidden />
+        <label class="field-label">Category</label>
+        <div class="category-grid category-grid-3" id="category-grid">
+          <button class="btn-category active" data-category="all">All</button>
+          <button class="btn-category" data-category="general">General</button>
+          <button class="btn-category" data-category="geography">Geography</button>
+          <button class="btn-category" data-category="historical">Historical</button>
+          <button class="btn-category" data-category="art">Art</button>
+          <button class="btn-category" data-category="food">Food</button>
+          <button class="btn-category" data-category="animals">Animals</button>
+          <button class="btn-category" data-category="sports">Sports</button>
+          <button class="btn-category" data-category="science">Science</button>
+          <button class="btn-category" data-category="popculture">Pop Culture</button>
+          <button class="btn-category" data-category="anatomy">Anatomy</button>
+          <button class="btn-category" data-category="brands">Brands</button>
+          <button class="btn-category" data-category="music">Music</button>
+          <button class="btn-category" data-category="travel">Travel</button>
         </div>
-        <p id="upload-status" class="status">Using 3 default questions</p>
+
+        <label class="field-label field-label-mt">Difficulty</label>
+        <div class="category-grid" id="difficulty-grid">
+          <button class="btn-category active" data-difficulty="easy">Easy</button>
+          <button class="btn-category" data-difficulty="normal">Normal</button>
+          <button class="btn-category" data-difficulty="hard">Hard</button>
+          <button class="btn-category" data-difficulty="eliminating">Eliminating</button>
+        </div>
+
+        <p id="upload-status" class="status">Loading questions…</p>
       </div>
 
       <button id="start-btn" class="btn-primary">
@@ -45,13 +64,14 @@
     <!-- Game screen -->
     <section id="game-screen" class="screen hidden">
       <header class="game-header">
-        <span class="meta">👥 <span id="player-display">4</span> players</span>
-        <span class="meta">Question <span id="q-current">1</span> / <span id="q-total">3</span></span>
+        <span class="meta">👥 <span id="player-display">4</span> players <button id="eliminate-btn" class="btn-eliminate">− Eliminate</button></span>
+        <span class="meta">Question <input id="q-jump" class="q-jump" type="number" min="1" inputmode="numeric" title="Type a number and press Enter to jump" /> / <span id="q-total">3</span> · <span id="game-meta-label" class="category-label"></span></span>
       </header>
 
       <div class="card question-card">
         <p class="field-label">Question</p>
         <p id="question-text" class="question-text"></p>
+        <p id="question-text-cs" class="question-text-cs"></p>
 
         <p class="field-label">Your answer (private)</p>
         <input id="answer-input" type="text" placeholder="Type your answer..." autocomplete="off" />
@@ -69,6 +89,7 @@
     </section>
   </main>
 
+  <script src="questions.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
