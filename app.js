@@ -67,7 +67,13 @@
         playerSlider.value = playerCount;
         playerOut.textContent = playerCount;
         if (saved.selectedCategory) applyCategory(saved.selectedCategory);
-        if (saved.selectedDifficulty) applyDifficulty(saved.selectedDifficulty);
+        if (saved.selectedDifficulty) {
+          // Legacy: the old single "eliminating" difficulty was split into
+          // eliminating-2..6 and eliminating-7plus. Fall back to the largest bucket.
+          const d = saved.selectedDifficulty === 'eliminating'
+            ? 'eliminating-2' : saved.selectedDifficulty;
+          applyDifficulty(d);
+        }
         return true;
       }
     } catch (e) { /* corrupted state, ignore */ }
@@ -123,6 +129,14 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
+  // "eliminating-7plus" -> "Eliminating 7+", "easy" -> "Easy"
+  function formatDifficulty(d) {
+    if (d && d.indexOf('eliminating-') === 0) {
+      return 'Eliminating ' + d.slice('eliminating-'.length).replace('plus', '+');
+    }
+    return capitalize(d);
+  }
+
   // Category buttons
   categoryBtns.forEach(btn => {
     btn.addEventListener('click', () => applyCategory(btn.dataset.category));
@@ -157,7 +171,7 @@
       ? Math.min(Math.max(resumeAt, 0), questions.length - 1)
       : 0;
     const catLabel = selectedCategory === 'all' ? 'All' : capitalize(selectedCategory);
-    gameMetaLabel.textContent = `${catLabel} · ${capitalize(selectedDifficulty)}`;
+    gameMetaLabel.textContent = `${catLabel} · ${formatDifficulty(selectedDifficulty)}`;
     setupScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     playerDisplay.textContent = playerCount;
